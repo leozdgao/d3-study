@@ -1,0 +1,26 @@
+{
+  "name": "d3-study",
+  "version": "0.0.0",
+  "description": "repo for learning d3",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leozdgao/d3-study.git"
+  },
+  "keywords": [
+    "d3.js"
+  ],
+  "author": "leozdgao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leozdgao/d3-study/issues"
+  },
+  "homepage": "https://github.com/leozdgao/d3-study",
+  "dependencies": {
+    "d3": "^3.5.5"
+  },
+  "devDependencies": {
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.9.8"
+  }
+}
