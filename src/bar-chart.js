@@ -27,7 +27,7 @@ exports.draw = function (data) {
     .scale(y)
     .orient('left');
   
-  // return the inner 'g' element
+  // return the inner 'g' container element
   var chart = d3.select('.bar-chart')
   	.attr('height', outerHeight)
   	.attr('width', outerWidth)
