@@ -3,39 +3,77 @@
 var d3 = require('d3');
 var service = require('./service');
 
-var data = service.getData();
+// fetch data
+var data = service.randomArray(1, 20, 20);
 
-var width = 960,
-    height = 500,
-	barWidth = width / data.length;
+// define dimension
+var outerWidth = 960,
+    outerHeight = 500,
+    margin = { top: 20, right: 30, bottom: 30, left: 40 },
+    width = outerWidth - margin.left - margin.right,
+    height = outerHeight - margin.top - margin.bottom,
+	  barWidth = width / data.length;
 
+// function for calculating x axis
 var x = d3.scale.ordinal()
 	.domain(data.map(function (d, i) {  return i;  }))
 	.rangeRoundBands([0, width], .1);
 
+// function for calculating y axis
 var y = d3.scale.linear()
-//	.domain([0, d3.max(data)])
-	.domain([0, 20])
+	.domain([0, d3.max(data)])
 	.range([height, 0]);
 
+var xAxis = d3.svg.axis()
+  .scale(x)
+  .orient('bottom');
+
+var yAxis = d3.svg.axis()
+  .scale(y)
+  .orient('left');
+
+// return the inner 'g' element
 var chart = d3.select('.chart')
-	.attr('height', height)
-	.attr('width', width);
-	
-var bar = chart.selectAll('g')
+	.attr('height', outerHeight)
+	.attr('width', outerWidth)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+// append x asix
+chart.append('g')
+  .attr('class', 'x axis')
+  .attr('transform', 'translate(0, ' + height + ')')
+  .call(xAxis);
+
+// append y asix
+chart.append('g')
+  .attr('class', 'y axis')
+  .call(yAxis)
+  // append text for y asix
+  .append('text')
+  .attr('transform', 'rotate(-90)')
+  .attr('y', 6)
+  .attr('dy', '.71em')
+  .style('text-anchor', 'end')
+  .text('Frequency');
+
+// generate 'g' according the data
+var bar = chart.selectAll('.bar')
 	.data(data)
 	.enter().append('g')
-	.attr('transform', function (d, i) {
-		return 'translate(' + x(i) + ', 0)';
-	});
-	
+  .attr('class', 'bar');
+
+// append rect for each bar
 bar.append('rect')
-	.attr('y', function (d) { return y(d); })
-	.attr('height', function (d) { return height - y(d); })
-	.attr('width', x.rangeBand());
-	
+  .attr('x', function (d, i) { return x(i); })
+  .attr('y', function (d) { return y(d); })
+  .attr('height', function (d) { return height - y(d); })
+  .attr('width', x.rangeBand());
+
+// append text for each bar
 bar.append('text')
-	.attr('y', function (d) { return y(d) + 3; })
-	.attr('x', x.rangeBand() / 2)
-	.attr('dy', '.75em')
-	.text(function (d) { return d; });
+  .attr('x', function (d, i) { return x(i) + x.rangeBand() / 2; })
+  .attr('y', function (d) { return y(d); })
+  .attr('dy', '-.3em')
+  .attr('text-anchor', 'middle')
+  .text(function (d) { return d; });
