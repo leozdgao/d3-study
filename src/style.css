@@ -3,6 +3,7 @@ text {
   fill: #000;
 }
 
+/* bar chart */
 .bar rect {
 	fill: steelblue;
 }
@@ -24,3 +25,8 @@ text {
 }
 
 .x.axis path { display: none; }
+
+/* three circle */
+.circle {
+  fill: steelblue;
+}
