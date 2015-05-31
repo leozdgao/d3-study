@@ -1,14 +1,21 @@
 /// <reference path="../typings/d3/d3.d.ts" />
 var d3 = require('d3');
 
-exports.draw = function (data) {
-  // define dimension
-  var outerWidth = 960,
+// define dimension
+var outerWidth = 960,
       outerHeight = 500,
       margin = { top: 20, right: 30, bottom: 30, left: 40 },
       width = outerWidth - margin.left - margin.right,
       height = outerHeight - margin.top - margin.bottom;
   
+  // return the inner 'g' container element
+  var chart = d3.select('.bar-chart')
+  	.attr('height', outerHeight)
+  	.attr('width', outerWidth)
+    .append('g')
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+exports.draw = function (data) {
   // function for calculating x axis
   var x = d3.scale.ordinal()
   	.domain(data.map(function (d, i) {  return i;  }))
@@ -27,20 +34,15 @@ exports.draw = function (data) {
     .scale(y)
     .orient('left');
   
-  // return the inner 'g' container element
-  var chart = d3.select('.bar-chart')
-  	.attr('height', outerHeight)
-  	.attr('width', outerWidth)
-    .append('g')
-    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-  
   // append x asix
+  chart.select('.x.axis').remove();
   chart.append('g')
     .attr('class', 'x axis')
     .attr('transform', 'translate(0, ' + height + ')')
     .call(xAxis);
   
   // append y asix
+  chart.select('.y.axis').remove();
   chart.append('g')
     .attr('class', 'y axis')
     .call(yAxis)
@@ -52,24 +54,31 @@ exports.draw = function (data) {
     .style('text-anchor', 'end')
     .text('Frequency');
   
-  // generate 'g' according the data
-  var bar = chart.selectAll('.bar')
-  	.data(data)
+  // Add new bar for no bounding data
+  var bar = chart.selectAll('.bar').data(data)
   	.enter().append('g')
     .attr('class', 'bar');
+    
+  bar.append('rect');
+  bar.append('text');
   
   // append rect for each bar
-  bar.append('rect')
+  chart.selectAll('.bar').data(data)
+    .select('rect')
     .attr('x', function (d, i) { return x(i); })
     .attr('y', function (d) { return y(d); })
     .attr('height', function (d) { return height - y(d); })
     .attr('width', x.rangeBand());
   
   // append text for each bar
-  bar.append('text')
+  chart.selectAll('.bar').data(data)
+    .select('text')
     .attr('x', function (d, i) { return x(i) + x.rangeBand() / 2; })
     .attr('y', function (d) { return y(d); })
     .attr('dy', '-.3em')
     .attr('text-anchor', 'middle')
     .text(function (d) { return d; });
+    
+  // remove the obsolete element
+  chart.selectAll('.bar').data(data).exit().remove();
 };

@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "repo for learning d3",
   "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/leozdgao/d3-study.git"

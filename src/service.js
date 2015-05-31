@@ -1,14 +1,18 @@
 exports.randomArray = function (min, max, length) {
-	var result = [];
+	var result = [], rand = exports.random(min, max);
   
 	while(+length --) {
-		result.push(random(min, max));
+		result.push(rand.next());
 	}
 	
 	return result;
 };
 
 // return a random value between min and max, including min and max
-function random (min, max) {
-	return Math.floor(min + (max - min + 1) * Math.random());
-}
+exports.random = function (min, max) {
+  return {
+    next: function() {
+      return Math.floor(min + (max - min + 1) * Math.random());    
+    }
+  };
+};
