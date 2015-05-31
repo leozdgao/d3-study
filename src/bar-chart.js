@@ -62,17 +62,16 @@ exports.draw = function (data) {
   bar.append('rect');
   bar.append('text');
   
+  var wrapper = chart.selectAll('.bar').data(data);
   // append rect for each bar
-  chart.selectAll('.bar').data(data)
-    .select('rect')
+  wrapper.select('rect')
     .attr('x', function (d, i) { return x(i); })
     .attr('y', function (d) { return y(d); })
     .attr('height', function (d) { return height - y(d); })
     .attr('width', x.rangeBand());
   
   // append text for each bar
-  chart.selectAll('.bar').data(data)
-    .select('text')
+  wrapper.select('text')
     .attr('x', function (d, i) { return x(i) + x.rangeBand() / 2; })
     .attr('y', function (d) { return y(d); })
     .attr('dy', '-.3em')
@@ -80,5 +79,5 @@ exports.draw = function (data) {
     .text(function (d) { return d; });
     
   // remove the obsolete element
-  chart.selectAll('.bar').data(data).exit().remove();
+  wrapper.exit().remove();
 };
