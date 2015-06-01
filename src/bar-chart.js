@@ -16,6 +16,12 @@ var outerWidth = 960,
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
 exports.draw = function (data) {
+  if (typeof data == 'function') {
+    data = data.call();
+  }
+  
+  if(Object.prototype.toString.call(data) !== '[object Array]') data = [];
+  
   // function for calculating x axis
   var x = d3.scale.ordinal()
   	.domain(data.map(function (d, i) {  return i;  }))

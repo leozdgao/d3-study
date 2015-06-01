@@ -6,10 +6,17 @@ barChart.draw(service.randomArray(1, 20, 20));
 
 var btnAdd = document.getElementById('btn-add');
 btnAdd.addEventListener('click', function() {
-  data.shift();
-  data.push(rand.next());
-  barChart.draw(data);
+  
 });
+//setInterval(function () {
+//  barChart.draw(function() {
+//    data.shift();
+//    data.push(rand.next());
+//    return data;
+//  });
+//}, 1000);
 
 require('./three-circle').draw(service.randomArray(100, 300, 5));
 require('./line-chart').draw(service.randomArray(1, 20, 12));
+
+console.dir(require('./working_with_array'));
