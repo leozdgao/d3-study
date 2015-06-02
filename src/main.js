@@ -21,3 +21,5 @@ require('./line-chart').draw(service.randomArray(1, 20, 12));
 
 console.dir(require('./working_with_array'));
 require('./color-interpolate').draw(20, ['steelblue', 'white']);
+
+require('./axis').draw();

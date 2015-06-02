@@ -43,3 +43,9 @@ text {
   padding: 5px 15px;
   margin: 0 5px;
 }
+
+.axis .grid-line {
+  stroke: #000;
+  stroke-dasharray: 2, 2;
+  opacity: .2;
+}
