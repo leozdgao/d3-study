@@ -37,3 +37,9 @@ text {
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+
+.color-cell {
+  display: inline-block;
+  padding: 5px 15px;
+  margin: 0 5px;
+}
