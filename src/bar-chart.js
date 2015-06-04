@@ -29,7 +29,7 @@ exports.draw = function (data) {
   
   // function for calculating y axis
   var y = d3.scale.linear()
-  	.domain([0, d3.max(data)])
+  	.domain([0, d3.max(data, function(d) { return d.value; })])
   	.range([height, 0]);
   
   var xAxis = d3.svg.axis()
@@ -65,28 +65,32 @@ exports.draw = function (data) {
   	.enter().append('g')
     .attr('class', 'bar');
     
-  bar.append('rect');
+  bar.append('rect').attr('opacity', 0);
   bar.append('text');
   
   var wrapper = chart.selectAll('.bar').data(data);
   // append rect for each bar
   wrapper.select('rect')
     .attr('x', function (d, i) { return x(i+1); })
+    .attr('y', function (d) { return y(d.value); })
+    .attr('height', function (d) { return height - y(d.value); })
+    
+    .attr('width', x.rangeBand())
   .transition()
     .attr('x', function (d, i) { return x(i); })
-    .attr('y', function (d) { return y(d); })
-    .attr('height', function (d) { return height - y(d); })
-    .attr('width', x.rangeBand());
+    .attr('opacity', 1);
+    
   
   // append text for each bar
   wrapper.select('text')
     .attr('x', function (d, i) { return x(i) + x.rangeBand() / 2; })
-    .attr('y', function (d) { return y(d); })
+    .attr('y', function (d) { return y(d.value); })
     .attr('dy', '-.3em')
     .attr('text-anchor', 'middle')
-    .text(function (d) { return d; });
+    .text(function (d) { return d.value; });
     
   // remove the obsolete element
   wrapper.exit().transition()
+    .attr('x', function (d, i) { return x(i - 1); })
     .remove();
 };

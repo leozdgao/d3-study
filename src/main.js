@@ -2,7 +2,11 @@ var service = require('./service');
 var barChart = require('./bar-chart');
 var data = service.randomArray(1, 20, 20);
 var rand = service.random(1, 20);
-barChart.draw(service.randomArray(1, 20, 20));
+barChart.draw(service.randomArray(1, 20, 20).map(function(v, i) {
+  return {
+    id: i, value: v
+  };
+}));
 
 var btnAdd = document.getElementById('btn-add');
 btnAdd.addEventListener('click', function() {
@@ -11,7 +15,7 @@ btnAdd.addEventListener('click', function() {
 setInterval(function () {
   barChart.draw(function() {
     data.shift();
-    data.push(rand.next());
+    data.push({id: data[data.length - 1].id ++, value: rand.next()});
     return data;
   });
 }, 1000);
