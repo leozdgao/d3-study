@@ -1,12 +1,12 @@
 var service = require('./service');
 var barChart = require('./bar-chart');
-var data = service.randomArray(1, 20, 20);
-var rand = service.random(1, 20);
-barChart.draw(service.randomArray(1, 20, 20).map(function(v, i) {
+var data = service.randomArray(1, 20, 20).map(function(v, i) {
   return {
     id: i, value: v
   };
-}));
+});
+var rand = service.random(1, 20);
+barChart.draw(data);
 
 var btnAdd = document.getElementById('btn-add');
 btnAdd.addEventListener('click', function() {

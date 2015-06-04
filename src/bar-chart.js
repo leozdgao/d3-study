@@ -61,7 +61,7 @@ exports.draw = function (data) {
     .text('Frequency');
   
   // Add new bar for no bounding data
-  var bar = chart.selectAll('.bar').data(data)
+  var bar = chart.selectAll('.bar').data(data, function(d) { return d.id; })
   	.enter().append('g')
     .attr('class', 'bar');
     
@@ -91,6 +91,7 @@ exports.draw = function (data) {
     
   // remove the obsolete element
   wrapper.exit().transition()
-    .attr('x', function (d, i) { return x(i - 1); })
+    .attr('x', function (d, i) {console.log('1'); return x(i - 1); })
+    .attr('opacity', 0)
     .remove();
 };
