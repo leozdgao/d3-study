@@ -23,3 +23,5 @@ console.dir(require('./working_with_array'));
 require('./color-interpolate').draw(20, ['steelblue', 'white']);
 
 require('./axis').draw();
+
+require('./transition').draw();

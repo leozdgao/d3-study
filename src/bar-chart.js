@@ -71,6 +71,8 @@ exports.draw = function (data) {
   var wrapper = chart.selectAll('.bar').data(data);
   // append rect for each bar
   wrapper.select('rect')
+    .attr('x', function (d, i) { return x(i+1); })
+  .transition()
     .attr('x', function (d, i) { return x(i); })
     .attr('y', function (d) { return y(d); })
     .attr('height', function (d) { return height - y(d); })
@@ -85,5 +87,6 @@ exports.draw = function (data) {
     .text(function (d) { return d; });
     
   // remove the obsolete element
-  wrapper.exit().remove();
+  wrapper.exit().transition()
+    .remove();
 };

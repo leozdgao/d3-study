@@ -35,6 +35,25 @@ function renderXAxis() {
     .attr('y1', 0)
     .attr('x2', 0)
     .attr('y2', - (height - 2 * margin));
+    
+    // rescale
+    
+    setInterval(function() {
+      var num = Math.round(Math.random() * 100);
+      xAxis.scale().domain([0, num]);
+      svg.select('g.x-axis')
+        .transition()
+        .call(xAxis);
+        
+      d3.selectAll('g.x-axis g.tick').select('.grid-line').remove();
+      d3.selectAll('g.x-axis g.tick')
+        .append('line')
+        .classed('grid-line', true)
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', - (height - 2 * margin));
+    }, 2000); 
 }
 
 function renderYAxis() {
@@ -42,13 +61,13 @@ function renderYAxis() {
   var scale = d3.scale.linear()
         .domain([100, 0])
         .range([0, axisLength]);
-  var xAxis = d3.svg.axis()
+  var yAxis = d3.svg.axis()
         .scale(scale)
         .orient('left');
   svg.append('g')
     .attr('class', 'y-axis')
     .attr('transform', 'translate(' + margin + ', ' + margin + ')')
-    .call(xAxis);
+    .call(yAxis);
     
   d3.selectAll('g.y-axis g.tick')
     .append('line')
